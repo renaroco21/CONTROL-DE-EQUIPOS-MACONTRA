@@ -1195,7 +1195,38 @@ table.days tfoot td.horas{color:var(--blue-dark);font-size:14px;}
 #drive-save-indicator.saving{display:flex;color:var(--blue-dark);background:var(--blue-soft);}
 #drive-save-indicator.saved{display:flex;color:#1a6b2f;background:#eaf6ec;}
 #drive-save-indicator.error{display:flex;color:var(--danger,#c0392b);background:var(--danger-soft,#fdecea);}
-.drive-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
+.drive-connect-topbar{
+  background:#fff3cd;color:#856404;border:1px solid #ffc107;
+  animation: pulse-border 2s ease-in-out infinite;
+}
+.drive-connect-topbar:hover{background:#ffc107;color:#3d2f00;border-color:#e0a800;}
+@keyframes pulse-border{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,193,7,0);}
+  50%{box-shadow:0 0 0 3px rgba(255,193,7,0.35);}
+}
+/* Banner flotante de Drive dentro de la app */
+#drive-banner{
+  position:fixed;bottom:18px;right:18px;z-index:200;
+  background:#fff;border:1.5px solid #ffc107;border-radius:14px;
+  box-shadow:0 4px 20px rgba(0,0,0,.15);
+  padding:14px 16px;max-width:320px;
+  display:flex;flex-direction:column;gap:10px;
+}
+#drive-banner.hidden{display:none;}
+.drive-banner-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.drive-banner-title{font-size:13.5px;font-weight:700;color:var(--text);line-height:1.3;}
+.drive-banner-sub{font-size:12px;color:var(--text-faint);margin-top:2px;line-height:1.4;}
+.drive-banner-close{background:none;border:none;color:var(--text-faint);font-size:16px;padding:0;cursor:pointer;flex:none;margin-top:-2px;}
+.drive-banner-close:hover{color:var(--text);}
+.drive-banner-actions{display:flex;gap:8px;}
+.drive-banner-btn{
+  flex:1;padding:8px 10px;font-size:13px;font-weight:600;
+  border-radius:8px;border:1.5px solid;cursor:pointer;
+}
+.drive-banner-btn.primary{background:#1a73e8;color:#fff;border-color:#1a73e8;}
+.drive-banner-btn.primary:hover{background:#1557b0;}
+.drive-banner-btn.ghost{background:transparent;color:var(--text-dim);border-color:var(--border);}
+.drive-banner-btn.ghost:hover{background:var(--panel-alt);}
 
 </style>
 </head>
@@ -1357,6 +1388,7 @@ table.days tfoot td.horas{color:var(--blue-dark);font-size:14px;}
         </div>
         <button class="btn-icon violet" onclick="openValorizarModal()">🧾 Valorizar</button>
         <button class="btn-icon emph" onclick="driveToken ? driveSaveFile() : saveFile()">💾 Guardar</button>
+        <button class="btn-icon drive-connect-topbar hidden" id="btn-drive-topbar" onclick="driveLoginFromTopbar()" title="Conecta Google Drive para guardar tus cambios en la nube">☁️ Conectar Drive</button>
         <div id="drive-save-indicator"><div class="drive-dot"></div><span id="drive-save-text">Guardando…</span></div>
         <button class="btn-icon quiet" onclick="confirmReset()">Salir</button>
       </div>
@@ -5317,6 +5349,21 @@ if(window.innerWidth < 880){
   document.getElementById('mobile-menu-btn').style.display='flex';
 }
 </script>
+<!-- ═══════════════ BANNER DRIVE ═══════════════ -->
+<div id="drive-banner" class="hidden">
+  <div class="drive-banner-head">
+    <div>
+      <div class="drive-banner-title">☁️ Conecta Google Drive</div>
+      <div class="drive-banner-sub">Tus cambios no se guardan en la nube todavía. Conéctate para que todo tu equipo vea el avance en tiempo real.</div>
+    </div>
+    <button class="drive-banner-close" onclick="driveBannerDismiss()" title="Cerrar">✕</button>
+  </div>
+  <div class="drive-banner-actions">
+    <button class="drive-banner-btn primary" onclick="driveLoginFromTopbar()">Conectar con Google</button>
+    <button class="drive-banner-btn ghost" onclick="driveBannerDismiss()">Ahora no</button>
+  </div>
+</div>
+
 <!-- ═══════════════ GOOGLE DRIVE MODULE ═══════════════ -->
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script>
@@ -20337,15 +20384,15 @@ const EMBEDDED_DATA = `{
 
 function cargarDatosIncrustados(){
   try{
-    // Cargar los datos sin mostrar el modal de bienvenida —
-    // el usuario entra directo al dashboard.
     cargarContenidoArchivo(EMBEDDED_DATA, 'CONTROL_DE_EQUIPOS_AGOSTO.json');
-    // Cerrar el modal automáticamente y mostrar la app
+    // Entrar directo al dashboard sin modal
     setTimeout(()=>{
       const overlay = document.getElementById('month-loaded-modal-overlay');
       if(overlay && !overlay.classList.contains('hidden')){
         continuarConMesCargado();
       }
+      // Mostrar botón de Drive en la topbar (si Google ya cargó y no hay sesión)
+      if(!driveToken){ _driveShowTopbarBtn(true); }
     }, 150);
   } catch(e){
     console.error('Error cargando datos incrustados', e);
@@ -20397,6 +20444,37 @@ window.addEventListener('load', ()=>{
   // con los de Drive si hay sesión guardada)
   setTimeout(driveInit, 900);
 });
+
+/* ── Login ── */
+function driveLoginFromTopbar(){
+  _driveBannerHide();
+  driveLogin();
+}
+
+/* ── Banner flotante ── */
+let _bannerDismissed = false;
+function _driveBannerShow(){
+  if(_bannerDismissed) return;
+  if(localStorage.getItem('drive_banner_dismissed')==='1') return;
+  const b = document.getElementById('drive-banner');
+  if(b) b.classList.remove('hidden');
+}
+function _driveBannerHide(){
+  const b = document.getElementById('drive-banner');
+  if(b) b.classList.add('hidden');
+}
+function driveBannerDismiss(){
+  _bannerDismissed = true;
+  localStorage.setItem('drive_banner_dismissed','1');
+  _driveBannerHide();
+  document.getElementById('btn-drive-topbar')?.classList.add('hidden');
+}
+function _driveShowTopbarBtn(visible){
+  const btn = document.getElementById('btn-drive-topbar');
+  if(!btn) return;
+  if(visible){ btn.classList.remove('hidden'); _driveBannerShow(); }
+  else { btn.classList.add('hidden'); _driveBannerHide(); }
+}
 
 /* ── Login ── */
 function driveLogin(){
@@ -20527,6 +20605,10 @@ function _driveShowLoginBtn(){
   if(btn){ btn.classList.remove('hidden'); }
   document.getElementById('drive-user-wrap')?.classList.add('hidden');
   document.getElementById('choice-row-local').style.display='';
+  // Mostrar botón en topbar y banner (si la app ya está visible)
+  if(!document.getElementById('screen-app')?.classList.contains('hidden')){
+    _driveShowTopbarBtn(true);
+  }
 }
 function _driveShowUser(){
   if(!driveUser) return;
@@ -20538,6 +20620,9 @@ function _driveShowUser(){
   document.getElementById('drive-user-email').textContent = driveUser.email || '';
   const av = document.getElementById('drive-user-avatar');
   if(av && driveUser.picture){ av.src = driveUser.picture; }
+  // Ocultar botón de topbar y banner — ya está conectado
+  _driveShowTopbarBtn(false);
+  localStorage.removeItem('drive_banner_dismissed');
 }
 function _driveShowStatus(tipo, msg){
   const el = document.getElementById('drive-status-box');
