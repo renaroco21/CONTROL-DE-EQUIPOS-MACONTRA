@@ -589,6 +589,37 @@ input:focus,select:focus{border-color:var(--blue);}
 .btn-icon:hover{color:var(--text);border-color:var(--text-faint);background:var(--panel-alt);}
 .btn-icon.emph{background:var(--blue);color:#fff;border-color:var(--blue);}
 .btn-icon.emph:hover{background:var(--blue-dark);}
+.btn-icon.violet{background:var(--violet);color:#fff;border-color:var(--violet);}
+.btn-icon.violet:hover{filter:brightness(.93);}
+.btn-icon.quiet{background:transparent;border-color:transparent;color:var(--text-faint);}
+.btn-icon.quiet:hover{background:var(--danger-soft);border-color:#f0cfcf;color:var(--danger);}
+.btn-icon .chev{font-size:10px;opacity:.65;}
+
+/* menú desplegable de exportación */
+.menu-wrap{position:relative;}
+.menu-pop{
+  position:absolute;right:0;top:calc(100% + 6px);z-index:60;
+  background:#fff;border:1px solid var(--border);border-radius:12px;
+  box-shadow:0 12px 30px rgba(20,25,35,.16);
+  padding:6px;min-width:246px;
+  display:flex;flex-direction:column;gap:2px;
+}
+.menu-pop button{
+  display:flex;align-items:center;gap:11px;
+  width:100%;text-align:left;
+  background:transparent;border:none;
+  padding:9px 10px;border-radius:8px;
+  color:var(--text);font-size:13.5px;
+}
+.menu-pop button:hover{background:var(--blue-soft);}
+.menu-pop .mi{
+  width:30px;height:30px;flex:none;border-radius:8px;
+  background:var(--panel-alt);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+}
+.menu-pop .mt{display:flex;flex-direction:column;line-height:1.3;min-width:0;}
+.menu-pop .mt b{font-weight:600;}
+.menu-pop .mt small{font-size:11.5px;color:var(--text-faint);}
 .content{flex:1;overflow-y:auto;padding:22px 26px 60px;}
 
 /* botón volver en topbar */
@@ -621,21 +652,46 @@ input:focus,select:focus{border-color:var(--blue);}
   white-space:nowrap;
 }
 .dash-quicknav a:hover{color:var(--blue-dark);border-color:var(--blue);background:var(--blue-soft);}
-.dash-section{margin-bottom:32px;scroll-margin-top:70px;}
-.dash-section-head{
-  display:flex;align-items:flex-end;justify-content:space-between;
-  gap:12px;margin-bottom:14px;flex-wrap:wrap;
-  padding-bottom:10px;border-bottom:1px solid var(--border);
+.dash-section{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:16px;
+  scroll-margin-top:74px;
+  box-shadow:0 1px 2px rgba(20,25,35,.04);
+  overflow:hidden;
 }
-.dash-section-head .htext{display:flex;flex-direction:column;gap:3px;}
+/* variante sin tarjeta: para bloques que ya traen su propio recuadro (avisos) */
+.dash-section.plain{background:transparent;border:none;box-shadow:none;overflow:visible;margin-bottom:14px;}
+.dash-section-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+}
+.dash-section-head:last-child{border-bottom:none;}
+.dash-section-head .htext{display:flex;flex-direction:column;gap:2px;}
 .dash-section-head h2{
-  font-size:21px;color:var(--text);
-  display:flex;align-items:center;gap:9px;
+  font-size:16.5px;color:var(--text);
+  display:flex;align-items:center;gap:10px;
+}
+.dash-section-head .sec-ico{
+  width:28px;height:28px;flex:none;border-radius:9px;
+  background:var(--blue-soft);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
 }
 .dash-section-head .dash-section-sub{
-  font-size:12.5px;color:var(--text-faint);
+  font-size:12px;color:var(--text-faint);
   font-family:var(--font-body);font-weight:500;
+  padding-left:38px;
 }
+/* cuerpo de las tarjetas: los bloques llevan margen, las tablas van a sangre */
+.dash-section > .stat-grid,
+.dash-section > .dash-charts,
+.dash-section > .semaforo-panel,
+.dash-section > .dash-alert{margin:16px 20px;}
+.dash-section > table.summary{border:none;border-radius:0;}
 .dash-section-badge{
   font-size:11px;font-weight:700;
   background:var(--blue-soft);color:var(--blue-dark);
@@ -724,16 +780,21 @@ input:focus,select:focus{border-color:var(--blue);}
   margin-left:auto;font-size:12.5px;color:var(--blue-dark);font-weight:600;
   background:var(--blue-soft);padding:6px 12px;border-radius:20px;
 }
-.dash-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;}
+.dash-charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:0;}
 .chart-panel{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 18px;}
-.chart-panel h3{font-size:13px;color:var(--text-dim);margin-bottom:14px;font-weight:700;font-family:var(--font-body);letter-spacing:0;}
+.dash-charts .chart-panel{
+  background:transparent;border:none;border-left:1px solid var(--border);
+  border-radius:0;padding:2px 0 2px 22px;
+}
+.dash-charts .chart-panel:first-child{border-left:none;padding-left:0;}
+.chart-panel h3{font-size:11.5px;color:var(--text-faint);margin-bottom:14px;font-weight:700;font-family:var(--font-body);letter-spacing:.05em;text-transform:uppercase;}
 .chart-panel .empty-mini{font-size:12.5px;color:var(--text-faint);padding:10px 0;}
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
 .bar-row .bar-label{
-  width:150px;flex:none;font-size:12.5px;color:var(--text-dim);
+  width:172px;flex:none;font-size:12.5px;color:var(--text-dim);
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
 }
-.bar-row .bar-track{flex:1;background:var(--panel-alt);border-radius:5px;height:16px;overflow:hidden;position:relative;}
+.bar-row .bar-track{flex:1;background:var(--panel-alt);border-radius:5px;height:14px;overflow:hidden;position:relative;}
 .bar-row .bar-fill{height:100%;background:var(--blue);border-radius:5px;transition:width .3s ease;}
 .bar-row.tipo .bar-fill{background:var(--success);}
 .bar-row.avance .bar-fill{background:var(--violet);}
@@ -742,29 +803,46 @@ input:focus,select:focus{border-color:var(--blue);}
 .bar-row .bar-value{width:64px;flex:none;text-align:right;font-size:12px;font-weight:700;color:var(--text);}
 table.summary tr.clickable{cursor:pointer;}
 table.summary tr.clickable:hover td{background:var(--blue-soft);}
-table.summary td.tipo-tag{font-size:12px;color:var(--text-dim);}
+table.summary td.tipo-tag{
+  font-size:11px;color:var(--text-dim);
+  text-transform:uppercase;letter-spacing:.04em;font-weight:600;
+  white-space:nowrap;
+}
+/* las tablas anchas (semáforo) pueden desplazarse dentro de su tarjeta */
+.dash-table-wrap{overflow-x:auto;}
+.dash-table-wrap table.summary{border:none;border-radius:0;min-width:100%;}
+/* el semáforo tiene 9 columnas: se compacta para que quepan todas */
+table.summary.sem-table th,
+table.summary.sem-table td{padding:9px 10px;}
+table.summary.sem-table .semaforo-input{width:60px;padding:5px 7px;}
 
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;}
 .stat-card{
-  background:#fff;border:1px solid var(--border);border-radius:10px;
-  padding:16px 18px 16px 20px;
+  background:var(--panel-alt);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px 15px 18px;
   position:relative;overflow:hidden;
 }
 .stat-card::before{
-  content:'';position:absolute;left:0;top:0;bottom:0;width:4px;
+  content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
   background:var(--stat-accent,var(--blue));
 }
-.stat-card .icon{font-size:17px;display:block;margin-bottom:8px;}
-.stat-card .label{font-size:12.5px;color:var(--text-faint);margin-bottom:6px;font-weight:600;}
-.stat-card .value{font-size:27px;color:var(--text);font-weight:800;font-family:var(--font-display);}
+.stat-card .icon{position:absolute;top:12px;right:13px;font-size:14px;opacity:.45;margin:0;display:block;}
+.stat-card .label{
+  font-size:10.5px;color:var(--text-faint);margin-bottom:5px;
+  font-weight:700;text-transform:uppercase;letter-spacing:.07em;
+  padding-right:22px;
+}
+.stat-card .value{font-size:26px;line-height:1.05;color:var(--text);font-weight:800;font-family:var(--font-display);}
 .stat-card .value span{color:var(--blue);font-size:14px;font-weight:600;font-family:var(--font-body);}
 table.summary{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 table.summary th{
-  text-align:left;padding:11px 14px;background:var(--panel-alt);
-  font-size:12px;color:var(--text-dim);font-weight:700;
+  text-align:left;padding:10px 14px;background:var(--panel-alt);
+  font-size:11px;color:var(--text-faint);font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
   border-bottom:1px solid var(--border);
 }
-table.summary td{padding:11px 14px;border-bottom:1px solid var(--panel-alt);font-size:13.5px;}
+table.summary td{padding:10px 14px;border-bottom:1px solid var(--panel-alt);font-size:13.5px;}
+table.summary td.num{white-space:nowrap;}
 table.summary tbody tr:nth-child(even) td{background:#fbfbfc;}
 table.summary tr.clickable:nth-child(even):hover td{background:var(--blue-soft);}
 table.summary tr:last-child td{border-bottom:none;}
@@ -776,10 +854,10 @@ table.summary th.sortable-th:hover{color:var(--blue-dark);}
 
 /* ---------- Semáforo de horas proyectadas ---------- */
 .semaforo-panel{
-  background:#fff;border:1px solid var(--border);border-radius:10px;
+  background:var(--panel-alt);border:1px solid var(--border);border-radius:12px;
   padding:16px 18px;display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
+  gap:22px;
 }
 .semaforo-col{display:flex;flex-direction:column;gap:10px;}
 .semaforo-col h4{
@@ -1082,6 +1160,43 @@ table.days tfoot td.horas{color:var(--blue-dark);font-size:14px;}
 }
 .pinfo-eq-total b{color:var(--blue-dark);font-family:var(--font-display);font-size:17px;font-weight:800;}
 
+/* ── Google Drive integration ── */
+.drive-status-box{
+  font-size:13px;border-radius:10px;padding:11px 14px;margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;line-height:1.45;
+}
+.drive-status-box.info{background:var(--blue-soft);color:var(--blue-dark);border:1px solid #c0d8f7;}
+.drive-status-box.ok{background:#eaf6ec;color:#1a6b2f;border:1px solid #b6e2c0;}
+.drive-status-box.warn{background:var(--yellow-soft);color:var(--yellow-dark);border:1px solid #f2ddaa;}
+.drive-status-box.err{background:var(--danger-soft,#fdecea);color:var(--danger,#c0392b);border:1px solid #f5c0bb;}
+.btn-google{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:11px;
+  background:#fff;border:1.5px solid var(--border);
+  padding:12px 16px;font-size:14.5px;font-weight:600;color:var(--text);
+  border-radius:10px;margin-bottom:14px;
+}
+.btn-google:hover{background:var(--panel-alt);border-color:var(--text-faint);}
+.drive-user-wrap{
+  display:flex;align-items:center;gap:10px;
+  background:var(--panel-alt);border:1px solid var(--border);
+  border-radius:10px;padding:10px 13px;margin-bottom:14px;
+}
+.drive-avatar{width:32px;height:32px;border-radius:50%;flex:none;}
+.drive-user-info{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+.drive-user-name{font-size:13.5px;font-weight:600;color:var(--text);}
+.drive-user-email{font-size:11.5px;color:var(--text-faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.drive-logout-btn{background:transparent;border:none;color:var(--text-faint);font-size:14px;padding:4px 6px;border-radius:6px;flex:none;}
+.drive-logout-btn:hover{background:var(--danger-soft,#fdecea);color:var(--danger,#c0392b);}
+#drive-save-indicator{
+  font-size:12px;color:var(--text-faint);
+  display:none;align-items:center;gap:5px;
+  padding:6px 10px;border-radius:8px;transition:color .3s,background .3s;flex:none;
+}
+#drive-save-indicator.saving{display:flex;color:var(--blue-dark);background:var(--blue-soft);}
+#drive-save-indicator.saved{display:flex;color:#1a6b2f;background:#eaf6ec;}
+#drive-save-indicator.error{display:flex;color:var(--danger,#c0392b);background:var(--danger-soft,#fdecea);}
+.drive-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:none;}
+
 </style>
 </head>
 <body>
@@ -1094,9 +1209,26 @@ table.days tfoot td.horas{color:var(--blue-dark);font-size:14px;}
         <div class="brand-mark">CE</div>
         <h1>Control de Equipos</h1>
       </div>
-      <p class="subtitle">Registra el horómetro diario de cada equipo por proveedor. Empieza abriendo un archivo guardado o creando uno nuevo.</p>
 
-      <div class="choice-row">
+      <!-- Estado de Drive -->
+      <div id="drive-status-box" class="drive-status-box" style="display:none"></div>
+
+      <!-- Botón Google -->
+      <button class="btn-google hidden" id="btn-google-login" onclick="driveLogin()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.33 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.67 14.62 48 24 48z"/></svg>
+        Conectar con Google Drive
+      </button>
+
+      <div class="drive-user-wrap hidden" id="drive-user-wrap">
+        <img id="drive-user-avatar" class="drive-avatar" src="" alt="">
+        <div class="drive-user-info">
+          <span id="drive-user-name" class="drive-user-name">—</span>
+          <span id="drive-user-email" class="drive-user-email">—</span>
+        </div>
+        <button class="drive-logout-btn" onclick="driveLogout()" title="Desconectar cuenta">✕</button>
+      </div>
+
+      <div class="choice-row" id="choice-row-local">
         <button class="choice-btn" onclick="openSavedFile()">
           <div class="choice-icon">📂</div>
           <div class="choice-text">
@@ -1214,13 +1346,19 @@ table.days tfoot td.horas{color:var(--blue-dark);font-size:14px;}
       <div class="topbar-actions">
         <button class="btn-icon" onclick="toggleSidebarMobile()" title="Menú" style="display:none" id="mobile-menu-btn">☰</button>
         <button class="btn-icon" onclick="openAddEquipoDialog()">+ Agregar equipo</button>
-        <button class="btn-icon" onclick="exportExcel()">⬇ Exportar a Excel (con gráfica)</button>
-        <button class="btn-icon" onclick="exportHtml()">🌐 Exportar a HTML</button>
-        <button class="btn-icon" onclick="exportPdf()">🖨 Exportar a PDF</button>
-        <button class="btn-icon emph" style="background:var(--violet);border-color:var(--violet);" onclick="openValorizarModal()">🧾 Valorizar</button>
-        <button class="btn-icon" onclick="exportImage()">📷 Exportar como imagen</button>
-        <button class="btn-icon emph" onclick="saveFile()">💾 Guardar</button>
-        <button class="btn-icon" onclick="confirmReset()">Salir</button>
+        <div class="menu-wrap">
+          <button class="btn-icon" id="export-menu-btn" onclick="toggleExportMenu(event)">⬇ Exportar <span class="chev">▾</span></button>
+          <div class="menu-pop hidden" id="export-menu">
+            <button onclick="runExport('excel')"><span class="mi">📊</span><span class="mt"><b>Excel</b><small>Control completo con gráfica</small></span></button>
+            <button onclick="runExport('pdf')"><span class="mi">🖨</span><span class="mt"><b>PDF</b><small>Reporte listo para imprimir</small></span></button>
+            <button onclick="runExport('html')"><span class="mi">🌐</span><span class="mt"><b>HTML</b><small>Página autocontenida</small></span></button>
+            <button onclick="runExport('image')"><span class="mi">📷</span><span class="mt"><b>Imagen</b><small>Captura PNG del resumen</small></span></button>
+          </div>
+        </div>
+        <button class="btn-icon violet" onclick="openValorizarModal()">🧾 Valorizar</button>
+        <button class="btn-icon emph" onclick="driveToken ? driveSaveFile() : saveFile()">💾 Guardar</button>
+        <div id="drive-save-indicator"><div class="drive-dot"></div><span id="drive-save-text">Guardando…</span></div>
+        <button class="btn-icon quiet" onclick="confirmReset()">Salir</button>
       </div>
     </div>
     <div class="content" id="content"></div>
@@ -2244,6 +2382,25 @@ function toggleSidebarMobile(){
   document.getElementById('sidebar').classList.toggle('open');
 }
 
+/* Menú de exportación de la barra superior */
+function toggleExportMenu(ev){
+  ev.stopPropagation();
+  document.getElementById('export-menu').classList.toggle('hidden');
+}
+function closeExportMenu(){
+  const m = document.getElementById('export-menu');
+  if(m) m.classList.add('hidden');
+}
+function runExport(kind){
+  closeExportMenu();
+  if(kind==='excel') exportExcel();
+  else if(kind==='html') exportHtml();
+  else if(kind==='pdf') exportPdf();
+  else if(kind==='image') exportImage();
+}
+document.addEventListener('click', closeExportMenu);
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeExportMenu(); });
+
 /* ============================================================
    CÁLCULOS DE HORAS
    ============================================================ */
@@ -2628,7 +2785,7 @@ function renderDashboard(){
     </div>
 
     ${(verAlertProv || verAlertEq) ? `
-    <div class="dash-section">
+    <div class="dash-section plain">
       ${verAlertProv ? `<div class="dash-alert"><span class="ico">ℹ️</span><span><b>${proveedoresInactivos.length} proveedor(es)</b> marcados como inactivo (${proveedoresInactivos.map(p=>p.name).join(', ')}) no se cuentan en este resumen. Actívalos desde el panel lateral si quieres incluirlos.</span><button class="dash-alert-close" title="Cerrar este aviso" onclick="descartarDashAlert('proveedores')">✕</button></div>` : ''}
       ${verAlertEq ? `<div class="dash-alert"><span class="ico">ℹ️</span><span><b>${equiposInactivos.length} equipo(s)</b> marcados como inactivo (${equiposInactivos.join(', ')}) no se cuentan en este resumen. Actívalos desde el panel lateral si quieres incluirlos.</span><button class="dash-alert-close" title="Cerrar este aviso" onclick="descartarDashAlert('equipos')">✕</button></div>` : ''}
     </div>` : ''}
@@ -2636,7 +2793,7 @@ function renderDashboard(){
     <div class="dash-section" id="dash-resumen">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>📊 Resumen del periodo</h2>
+          <h2><span class="sec-ico">📊</span>Resumen del periodo</h2>
           <span class="dash-section-sub">Solo proveedores y equipos activos${dashFilters.proveedor||dashFilters.tipo?' · filtrado':''}</span>
         </div>
       </div>
@@ -2647,7 +2804,7 @@ function renderDashboard(){
         <div class="stat-card" style="--stat-accent:var(--yellow);"><span class="icon">⏱️</span><div class="label">Horas registradas</div><div class="value">${totalHoras.toFixed(1)}<span> h</span></div></div>
       </div>
 
-      <div class="dash-charts" style="margin-top:14px;">
+      <div class="dash-charts">
         <div class="chart-panel">
           <h3>Horas por proveedor ${dashFilters.proveedor||dashFilters.tipo?'(filtrado, top 10)':'(top 10)'}</h3>
           ${provChartRows.length ? provChartRows.map(([name,horas])=>`
@@ -2674,7 +2831,7 @@ function renderDashboard(){
     <div class="dash-section" id="dash-importes">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>💰 Importe por proveedor</h2>
+          <h2><span class="sec-ico">💰</span>Importe por proveedor</h2>
           <span class="dash-section-sub">Horas del mes × precio por hora de cada equipo${dashFilters.proveedor||dashFilters.tipo?' · filtrado':''}</span>
         </div>
         <div class="dash-section-actions">
@@ -2683,7 +2840,7 @@ function renderDashboard(){
         </div>
       </div>
       ${imp.sinPrecio.length ? `<div class="dash-alert"><span class="ico">⚠️</span><span><b>${imp.sinPrecio.length} equipo(s)</b> con horas registradas no tienen precio por hora asignado, así que suman S/ 0.00 (${imp.sinPrecio.slice(0,6).join(', ')}${imp.sinPrecio.length>6?`, y ${imp.sinPrecio.length-6} más`:''}). Asígnalo desde el panel lateral, en los datos del proveedor.</span></div>` : ''}
-      <table class="summary importe-table">
+      <div class="dash-table-wrap"><table class="summary importe-table">
         <thead>
           <tr>
             <th>Proveedor</th>
@@ -2730,13 +2887,13 @@ function renderDashboard(){
             <td></td>
           </tr>
         </tfoot>` : ''}
-      </table>
+      </table></div>
     </div>
 
     <div class="dash-section" id="dash-comparativa">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>📈 Cómo va cada categoría</h2>
+          <h2><span class="sec-ico">📈</span>Cómo va cada categoría</h2>
           <span class="dash-section-sub">${dashFilters.proveedor ? `Filtrado por proveedor — ${dashFilters.proveedor}` : 'Todas las categorías de equipo'}</span>
         </div>
       </div>
@@ -2759,12 +2916,12 @@ function renderDashboard(){
     <div class="dash-section" id="dash-activos">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>🔧 Equipos activos</h2>
+          <h2><span class="sec-ico">🔧</span>Equipos activos</h2>
           <span class="dash-section-sub">Clic en el encabezado de horas para ordenar de mayor a menor</span>
         </div>
         <span class="dash-section-badge">${filtered.length} equipo(s)</span>
       </div>
-      <table class="summary">
+      <div class="dash-table-wrap"><table class="summary">
         <thead><tr><th>Proveedor</th><th>Tipo</th><th>Equipo</th><th>Placa/código</th><th class="sortable-th" style="text-align:right" onclick="toggleDashSortHoras()">Horas del mes ${dashSortHoras==='desc' ? '▼' : dashSortHoras==='asc' ? '▲' : '⇅'}</th></tr></thead>
         <tbody>
           ${filtered.length ? filtered
@@ -2784,13 +2941,13 @@ function renderDashboard(){
             `).join('')
             : `<tr><td colspan="5" style="text-align:center;color:var(--text-faint);padding:22px;">No hay equipos que coincidan con los filtros seleccionados.</td></tr>`}
         </tbody>
-      </table>
+      </table></div>
     </div>
 
     <div class="dash-section" id="dash-inactivos">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>⏸️ Equipos inactivos</h2>
+          <h2><span class="sec-ico">⏸️</span>Equipos inactivos</h2>
           <span class="dash-section-sub">No se cuentan en el resumen general</span>
         </div>
         <div class="dash-section-actions">
@@ -2799,7 +2956,7 @@ function renderDashboard(){
         </div>
       </div>
       ${dashInactivosAbierto ? `
-      <table class="summary">
+      <div class="dash-table-wrap"><table class="summary">
         <thead><tr><th>Proveedor</th><th>Tipo</th><th>Equipo</th><th>Placa/código</th><th>Motivo</th><th class="sortable-th" style="text-align:right" onclick="toggleDashSortHorasInactivos()">Horas del mes ${dashSortHorasInactivos==='desc' ? '▼' : dashSortHorasInactivos==='asc' ? '▲' : '⇅'}</th></tr></thead>
         <tbody>
           ${inactiveFlat.length ? inactiveFlat
@@ -2820,18 +2977,18 @@ function renderDashboard(){
             `).join('')
             : `<tr><td colspan="6" style="text-align:center;color:var(--text-faint);padding:22px;">No hay equipos inactivos.</td></tr>`}
         </tbody>
-      </table>` : ''}
+      </table></div>` : ''}
     </div>
 
     <div class="dash-section" id="dash-semaforo">
       <div class="dash-section-head">
         <div class="htext">
-          <h2>🚦 Semáforo de equipos</h2>
+          <h2><span class="sec-ico">🚦</span>Semáforo de equipos</h2>
           <span class="dash-section-sub">Estado proyectado de horas al cierre del periodo</span>
         </div>
       </div>
 
-      <div class="semaforo-panel" style="margin-bottom:14px;">
+      <div class="semaforo-panel">
         <div class="semaforo-col">
           <h4>Corte y metas</h4>
           <label class="semaforo-date-label">Fecha de corte
@@ -2866,8 +3023,8 @@ function renderDashboard(){
         </div>
       </div>
 
-      <table class="summary">
-        <thead><tr><th>Proveedor</th><th>Tipo</th><th>Equipo</th><th>Placa/código</th><th style="text-align:right">Horas del mes</th><th style="text-align:right">Horas mínimas (equipo)</th><th style="text-align:right">Prom. horas (manual)</th><th style="text-align:right">Horas proyectadas</th><th style="text-align:center">Estado</th></tr></thead>
+      <div class="dash-table-wrap"><table class="summary sem-table">
+        <thead><tr><th>Proveedor</th><th>Tipo</th><th>Equipo</th><th>Placa</th><th style="text-align:right">Horas mes</th><th style="text-align:right" title="Horas mínimas propias de este equipo">Mínimas</th><th style="text-align:right" title="Promedio de horas diarias ingresado manualmente">Prom. manual</th><th style="text-align:right" title="Horas actuales más el promedio manual proyectado al cierre">Proyectadas</th><th style="text-align:center">Estado</th></tr></thead>
         <tbody>
           ${filtered.length ? filtered
             .sort(sortPorSemaforo)
@@ -2888,7 +3045,7 @@ function renderDashboard(){
             `}).join('')
             : `<tr><td colspan="9" style="text-align:center;color:var(--text-faint);padding:22px;">No hay equipos que coincidan con los filtros seleccionados.</td></tr>`}
         </tbody>
-      </table>
+      </table></div>
     </div>
   `;
 }
@@ -2994,7 +3151,7 @@ function onChangeEquipoTipoSelect(pIdx, eIdx, selectEl){
 
 function updateHorIni(pIdx,eIdx,dIdx,val){
   appData.proveedores[pIdx].equipos[eIdx].dias[dIdx].horIni = val;
-  renderContent(); renderSidebar();
+  renderContent(); renderSidebar(); driveAutoSave();
 }
 function updateHorFin(pIdx,eIdx,dIdx,val){
   const eq = appData.proveedores[pIdx].equipos[eIdx];
@@ -3003,10 +3160,11 @@ function updateHorFin(pIdx,eIdx,dIdx,val){
     const nextDia = eq.dias[dIdx+1];
     if(nextDia.horIni === ''){ nextDia.horIni = val; }
   }
-  renderContent(); renderSidebar();
+  renderContent(); renderSidebar(); driveAutoSave();
 }
 function updateObs(pIdx,eIdx,dIdx,val){
   appData.proveedores[pIdx].equipos[eIdx].dias[dIdx].obs = val;
+  driveAutoSave();
 }
 
 function deleteEquipo(pIdx,eIdx){
@@ -5157,6 +5315,207 @@ async function exportImage(){
    ============================================================ */
 if(window.innerWidth < 880){
   document.getElementById('mobile-menu-btn').style.display='flex';
+}
+</script>
+<!-- ═══════════════ GOOGLE DRIVE MODULE ═══════════════ -->
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script>
+/* ── Configuración ── */
+const DRIVE_CLIENT_ID = '529914380142-esm100qipsn341elr39qlhakidutpqhi.apps.googleusercontent.com';
+const DRIVE_SCOPE     = 'https://www.googleapis.com/auth/drive.file';
+const DRIVE_FILENAME  = 'control_equipos_macontra.json';
+
+/* ── Estado interno ── */
+let driveToken     = null;   // access token activo
+let driveFileId    = null;   // ID del archivo en Drive
+let driveUser      = null;   // { name, email, picture }
+let driveAutoTimer = null;   // debounce timer
+let driveReady     = false;  // GIS cargado
+
+/* ── Inicializar Google Identity Services ── */
+function driveInit(){
+  if(!window.google?.accounts?.oauth2) return;
+  driveReady = true;
+  const saved = _driveLoad();
+  if(saved.token){
+    driveToken = saved.token;
+    driveUser  = saved.user || null;
+    _driveShowUser();
+    _driveShowStatus('info','☁️ Verificando conexión con Drive…');
+    // Verificar que el token sigue válido
+    driveListFile().then(id=>{
+      driveFileId = id;
+      _driveShowStatus('ok','☁️ Conectado a Drive. Cargando datos…');
+      driveLoadFile();
+    }).catch(()=>{
+      driveToken = null; localStorage.removeItem('drive_token');
+      _driveShowStatus('warn','La sesión expiró. Vuelve a conectarte.');
+      _driveShowLoginBtn();
+    });
+  } else {
+    _driveShowLoginBtn();
+  }
+}
+window.addEventListener('load', ()=>{ setTimeout(driveInit, 800); });
+
+/* ── Login ── */
+function driveLogin(){
+  if(!driveReady){ alert('Google aún está cargando. Espera un segundo e intenta de nuevo.'); return; }
+  const client = google.accounts.oauth2.initTokenClient({
+    client_id: DRIVE_CLIENT_ID,
+    scope: DRIVE_SCOPE,
+    callback: async (resp)=>{
+      if(resp.error){ _driveShowStatus('err','Error al conectar: '+resp.error); return; }
+      driveToken = resp.access_token;
+      localStorage.setItem('drive_token', driveToken);
+      _driveShowStatus('info','☁️ Obteniendo información del usuario…');
+      await _driveFetchUser();
+      _driveShowUser();
+      _driveShowStatus('info','☁️ Buscando archivo en Drive…');
+      driveFileId = await driveListFile();
+      if(driveFileId){
+        _driveShowStatus('ok','☁️ Archivo encontrado. Cargando datos…');
+        driveLoadFile();
+      } else {
+        _driveShowStatus('ok','☁️ Conectado. Crea un control nuevo para empezar.');
+        document.getElementById('choice-row-local').style.display='';
+      }
+    }
+  });
+  client.requestAccessToken({ prompt:'consent' });
+}
+
+/* ── Logout ── */
+function driveLogout(){
+  if(driveToken) google.accounts.oauth2.revoke(driveToken, ()=>{});
+  driveToken = null; driveFileId = null; driveUser = null;
+  localStorage.removeItem('drive_token');
+  localStorage.removeItem('drive_user');
+  document.getElementById('drive-user-wrap').classList.add('hidden');
+  _driveShowLoginBtn();
+  _driveShowStatus('info','Desconectado. Conéctate de nuevo para usar Drive.');
+}
+
+/* ── Buscar el archivo en Drive ── */
+async function driveListFile(){
+  const q = encodeURIComponent(`name='${DRIVE_FILENAME}' and trashed=false`);
+  const r = await fetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`,
+    { headers:{ Authorization:'Bearer '+driveToken } });
+  if(!r.ok) throw new Error('list failed');
+  const data = await r.json();
+  return data.files?.[0]?.id || null;
+}
+
+/* ── Cargar el archivo desde Drive ── */
+async function driveLoadFile(){
+  if(!driveToken || !driveFileId) return;
+  try{
+    const r = await fetch(`https://www.googleapis.com/drive/v3/files/${driveFileId}?alt=media`,
+      { headers:{ Authorization:'Bearer '+driveToken } });
+    if(!r.ok) throw new Error('download failed');
+    const texto = await r.text();
+    cargarContenidoArchivo(texto, DRIVE_FILENAME);
+    document.getElementById('choice-row-local').style.display='none';
+  } catch(e){
+    _driveShowStatus('err','No se pudo cargar el archivo desde Drive. '+e.message);
+  }
+}
+
+/* ── Guardar en Drive (crear o actualizar) ── */
+async function driveSaveFile(){
+  if(!driveToken){ saveFile(); return; }
+  controlFile.meses[mesActivoKey] = appData;
+  const contenido = JSON.stringify(controlFile, null, 2);
+  const blob = new Blob([contenido], {type:'application/json'});
+  _driveSaveIndicator('saving');
+  try{
+    if(driveFileId){
+      // Actualizar archivo existente
+      const r = await fetch(`https://www.googleapis.com/upload/drive/v3/files/${driveFileId}?uploadType=media`,{
+        method:'PATCH', headers:{ Authorization:'Bearer '+driveToken, 'Content-Type':'application/json' }, body:blob
+      });
+      if(!r.ok) throw new Error('update failed '+r.status);
+    } else {
+      // Crear archivo nuevo
+      const meta = new Blob([JSON.stringify({name:DRIVE_FILENAME})],{type:'application/json'});
+      const form = new FormData();
+      form.append('metadata', meta);
+      form.append('file', blob);
+      const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{
+        method:'POST', headers:{ Authorization:'Bearer '+driveToken }, body:form
+      });
+      if(!r.ok) throw new Error('create failed '+r.status);
+      const d = await r.json();
+      driveFileId = d.id;
+    }
+    _driveSaveIndicator('saved');
+  } catch(e){
+    console.error('[Drive] save error', e);
+    _driveSaveIndicator('error');
+  }
+}
+
+/* ── Auto-guardado con debounce (2 s tras el último cambio) ── */
+function driveAutoSave(){
+  if(!driveToken) return;
+  clearTimeout(driveAutoTimer);
+  driveAutoTimer = setTimeout(driveSaveFile, 2000);
+}
+
+/* ── Obtener datos del usuario ── */
+async function _driveFetchUser(){
+  try{
+    const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo',
+      { headers:{ Authorization:'Bearer '+driveToken } });
+    if(!r.ok) return;
+    const d = await r.json();
+    driveUser = { name: d.name||'', email: d.email||'', picture: d.picture||'' };
+    localStorage.setItem('drive_user', JSON.stringify(driveUser));
+  } catch(_){}
+}
+
+/* ── Helpers de UI ── */
+function _driveShowLoginBtn(){
+  const btn = document.getElementById('btn-google-login');
+  if(btn){ btn.classList.remove('hidden'); }
+  document.getElementById('drive-user-wrap')?.classList.add('hidden');
+  document.getElementById('choice-row-local').style.display='';
+}
+function _driveShowUser(){
+  if(!driveUser) return;
+  const wrap = document.getElementById('drive-user-wrap');
+  if(!wrap) return;
+  wrap.classList.remove('hidden');
+  document.getElementById('btn-google-login')?.classList.add('hidden');
+  document.getElementById('drive-user-name').textContent  = driveUser.name  || '';
+  document.getElementById('drive-user-email').textContent = driveUser.email || '';
+  const av = document.getElementById('drive-user-avatar');
+  if(av && driveUser.picture){ av.src = driveUser.picture; }
+}
+function _driveShowStatus(tipo, msg){
+  const el = document.getElementById('drive-status-box');
+  if(!el) return;
+  el.style.display = 'flex';
+  el.className = 'drive-status-box '+tipo;
+  el.textContent = msg;
+}
+function _driveSaveIndicator(estado){
+  const el = document.getElementById('drive-save-indicator');
+  if(!el) return;
+  const txt = document.getElementById('drive-save-text');
+  el.className = ''; // reset
+  if(estado==='saving'){ el.classList.add('saving'); if(txt) txt.textContent='Guardando en Drive…'; }
+  else if(estado==='saved'){
+    el.classList.add('saved'); if(txt) txt.textContent='Guardado en Drive ✓';
+    setTimeout(()=>{ el.className=''; }, 4000);
+  }
+  else if(estado==='error'){ el.classList.add('error'); if(txt) txt.textContent='Error al guardar en Drive'; }
+}
+function _driveLoad(){
+  return {
+    token: localStorage.getItem('drive_token') || null,
+    user: JSON.parse(localStorage.getItem('drive_user') || 'null')
+  };
 }
 </script>
 </body>
